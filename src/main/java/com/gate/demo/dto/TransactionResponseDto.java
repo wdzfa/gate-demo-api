@@ -1,31 +1,18 @@
-package com.gate.demo.model;
+package com.gate.demo.dto;
 
-import jakarta.persistence.*;
+import com.gate.demo.model.TransactionType;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
-@Table(name = "T_TRANSACTION")
-public class Transaction {
-
-    @Id
-    @GeneratedValue
+public class TransactionResponseDto {
     private UUID id;
-
-    @Column(nullable = false)
     private UUID accountId;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private TransactionType type;
 
-    @Column(nullable = false)
     private BigDecimal amount;
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime timestamp = LocalDateTime.now();
+    private LocalDateTime timestamp;
 
     public UUID getId() {
         return id;
@@ -66,6 +53,4 @@ public class Transaction {
     public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
-
 }
-

@@ -1,6 +1,8 @@
 package com.gate.demo.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -17,6 +19,8 @@ public class User implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @Email
+    @NotBlank
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 

@@ -1,31 +1,15 @@
-package com.gate.demo.model;
-
-import jakarta.persistence.*;
+package com.gate.demo.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
-@Table(name = "T_ACCOUNT")
+public class AccountResponseDto {
 
-public class Account {
-
-    @Id
-    @GeneratedValue
     private UUID id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
+    private UUID user_id;
     private BigDecimal balance;
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime created_at = LocalDateTime.now();
-
-    public Account() {
-    }
+    private LocalDateTime created_at;
 
     public UUID getId() {
         return id;
@@ -35,12 +19,12 @@ public class Account {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public UUID getUser_id() {
+        return user_id;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser_id(UUID user_id) {
+        this.user_id = user_id;
     }
 
     public BigDecimal getBalance() {
@@ -59,4 +43,5 @@ public class Account {
         this.created_at = created_at;
     }
 
+    public AccountResponseDto() {}
 }

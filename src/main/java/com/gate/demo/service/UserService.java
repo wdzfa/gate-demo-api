@@ -1,8 +1,8 @@
 package com.gate.demo.service;
 
-
 import com.gate.demo.dto.UserRequestDto;
 import com.gate.demo.dto.UserResponseDto;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,9 +15,9 @@ public interface UserService {
 
     List<UserResponseDto> getAllUser();
 
-    UserResponseDto updateUser(UUID id, UserRequestDto requestDto);
+    ResponseEntity<String> updateUser(UserRequestDto requestDto);
 
-    void deleteUser(UUID id);
+    ResponseEntity<String> deleteUser(UUID id);
 
 }
 
