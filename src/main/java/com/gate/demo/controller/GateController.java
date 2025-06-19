@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("api/")
+@RequestMapping("api/v1")
 public class GateController {
 
     @Autowired
