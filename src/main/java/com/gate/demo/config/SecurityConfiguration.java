@@ -1,5 +1,7 @@
 package com.gate.demo.config;
 
+import com.gate.demo.exception.CustomAccessDeniedHandler;
+import com.gate.demo.exception.CustomAuthHandler;
 import com.gate.demo.filter.AuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +29,10 @@ public class SecurityConfiguration {
     @Autowired
     UserDetailsService userDetailsService;
 
+    CustomAccessDeniedHandler customAccessDeniedHandler;
+
+    CustomAuthHandler customAuthenticationEntryPoint;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -40,8 +46,11 @@ public class SecurityConfiguration {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authenticationProvider(authenticationProvider())
-                .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
-
+                .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(exception -> exception
+                        .accessDeniedHandler(customAccessDeniedHandler)
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
+                );
 
         return http.build();
     }

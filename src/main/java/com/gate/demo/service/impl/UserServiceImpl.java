@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -26,6 +27,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public UserResponseDto createUser(UserRequestDto request) {
 
@@ -33,10 +37,18 @@ public class UserServiceImpl implements UserService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already exists");
         }
 
+        String[] nameParts = request.getName().trim().split("\\s+");
+        String firstName = nameParts[0].toLowerCase();
+        String username = request.getName().toLowerCase().replaceAll("\\s+", "_");
+        String rawPassword = firstName + "12345";
+        String hashedPassword = passwordEncoder.encode(rawPassword);
+
         User user = new User();
         user.setId(UUID.randomUUID());
         user.setName(request.getName());
+        user.setUsername(username);
         user.setEmail(request.getEmail());
+        user.setPassword(hashedPassword);
         user.setCreatedAt(LocalDateTime.now());
 
         User saved = userRepository.save(user);
